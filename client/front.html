@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function retrieveData () {
+          fetch("http://localhost/proyectos/proyectoecommerce/server/productos")
+          .then((res) => res.json())
+          .then((data) => {
+              console.log(data);
+              // data = data[0];
+              // console.log(data.nombre);
+              // for (let i=0; i < data.length; i++) {
+              //   const datos = document.createElement("div");
+              //   datos.innerText = "Producto: " + data[i].nombre + "\nCantidad: " + data[i].cantidad + "\nPrecio:" + data[i].precio;
+              //   const div = document.getElementById("datos");
+              //   div.appendChild(datos);
+              // }
+            });
+        };
+      document.addEventListener("DOMContentLoaded", function (event) {
+        retrieveData(); 
+        const button = document.querySelector(".button");
+        button.addEventListener("click", () => {
+          retrieveData();
+        });
+        //Las peticiones se hacen a la uri del server segun las rutas definidas
+        
+      });
+    </script>
+  </head>
+  <body>
+    <button type="button" class="button">Retrieve data from api</button>
+    <div id="datos"></div>
+  </body>
+</html>
