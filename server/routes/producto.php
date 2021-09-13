@@ -17,6 +17,11 @@ router("POST","/producto", function(){
     echo modificar_producto($datos);
 });
 
+router("POST", "/producto", function(){
+    include_once("./models/cargar.php");
+   
+
+});
 router('PUT', '/producto/add', function(){
     if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         parse_str(file_get_contents("php://input"),$put_vars);
