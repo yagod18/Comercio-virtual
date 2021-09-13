@@ -18,7 +18,7 @@ router("POST","/producto", function(){
 });
 
 router("POST", "/producto", function(){
-    include_once("./models/cargar.php");
+    include_once("./models/producto.php");
    
 
 });
