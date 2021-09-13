@@ -3,6 +3,7 @@ function router($method, $url, $closure) {
     //Request uri trae la uri actual
 	$route = $_SERVER['REQUEST_URI'];
     //Se elimina todo lo que no es la uri base para usar url's relativas
+                        //nombre de como tengas tu carpeta
     $route = str_replace("comercio-virtual/server/", "", $route);
 	if (strpos($route, '?')) {
 		$route = strstr($route, '?', true);
