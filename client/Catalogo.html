@@ -16,57 +16,7 @@
 
 <script>
 
-function retrieveData () {
-          fetch("http://localhost/comercio-virtual/server/productos")
-          .then((res) => res.json())
-          .then((data) => {
-            //   console.log(data);
 
-             data.map((registro)=> {
-                console.log(registro)
-                const tr = document.createElement("tr");
-                // let td = document.createElement("td");
-                // let td2 = document.createElement("td");
-                // td.innerText = registro.precio ;
-                // tr.insertBefore(td);
-                // td2.innerText = registro.cantidad;
-                // tr.insertBefore(td);
-                // td.innerText = registro.nombre;
-                // tr.insertBefore(td);
-                // td.innerText = registro.categorias;
-                // tr.insertBefore(td);
-                // td.innerText = registro.descripcion;
-                // tr.insertBefore(td);
-                // td.innerText = registro.estatus;
-                // tr.insertBefore(td);
-                const datos = "<td> " + registro.precio + "</td>" + "<td> " + registro.cantidad + "</td>" +  "<td> " + registro.nombre + "</td>" + "<td> " + registro.categorias + "</td>" + "<td> " + registro.descripcion + "</td>" + "<td> " + registro.estatus + "</td>";
-                tr.innerHTML = datos ;
-                
-                
-                const table = document.getElementById("tablacampos");
-                table.appendChild(tr);
-                
-                
-                //for (let i=0; i < Object.keys(registro).length; i++){
-               // }
-             })
-              // data = data[0];
-              // console.log(data.nombre);
-              // for (let i=0; i < data.length; i++) {
-              //   const datos = document.createElement("div");
-              //   datos.innerText = "Producto: " + data[i].nombre + "\nCantidad: " + data[i].cantidad + "\nPrecio:" + data[i].precio;
-              //   const div = document.getElementById("datos");
-              //   div.insertBefore(datos);
-              // }
-            });
-        };
-      document.addEventListener("DOMContentLoaded", function (event) {
-        retrieveData(); 
-        
-        //Las peticiones se hacen a la uri del server segun las rutas definidas
-        
-      });
-    
 </script>
 
  <!-- el BODY tiene estilos -->
@@ -74,6 +24,18 @@ function retrieveData () {
 
  
 <body style="margin: 50px;">
+
+    <div class="container mt-5">
+        <h1>Buscador</h1>
+        <input type="text" id="formulariobuscador" class="my-2">
+        <button class="btn btn-primary mb-2" id="botonbuscador">Buscar</button>
+        <ul id="resultadodebusqueda">
+        
+        </ul>
+    </div>
+<!--
+
+
 <table id="tablacampos">
     <tr>
         <th>
@@ -97,6 +59,89 @@ function retrieveData () {
     </tr>
 </table>
 
+-->
+
+<script>
+
+
+      // buscador
+
+      fetch("http://localhost/comercio-virtual/server/productos")
+      .then((res) => res.json())
+      .then((data) =>{
+          
+    const formulariobuscador = document.querySelector('#formulariobuscador');
+    const botonbuscador = document.querySelector('#botonbuscador');
+    const resultadodebusqueda = document.querySelector('#resultadodebusqueda');
+
+    const buscar = () =>{
+        resultadodebusqueda.innerHTML = '';
+        const text = formulariobuscador.value.toLowerCase();
+
+
+
+        for(let producto of data){
+            
+            let nombre = producto.nombre.toLocaleLowerCase();
+            if(nombre.indexOf(text) !== -1){
+                resultadodebusqueda.innerHTML += `<li>${producto.nombre} - Valor: ${producto.precio} </li>`
+                
+            }
+        }
+
+        if(resultadodebusqueda.innerHTML === ''){
+            resultadodebusqueda.innerHTML += `<li>Producto no encontrado...</li>`
+        }
+
+    }
+
+    botonbuscador.addEventListener('click', buscar)
+    formulariobuscador.addEventListener('keyup', buscar)
+    buscar();
+      });
+
+      
+
+        
+
+
+ // catalogo
+
+
+ /* function retrieveData () {
+          fetch("http://localhost/comercio-virtual/server/productos")
+          .then((res) => res.json())
+          .then((data) => {
+            //   console.log(data);
+
+             data.map((registro)=> {
+                console.log(registro)
+
+                const tr = document.createElement("tr");
+            
+                const datos = "<td> " + registro.precio + "</td>" + "<td> " + registro.cantidad + "</td>" +  "<td> " + registro.nombre + "</td>" + "<td> " + registro.categorias + "</td>" + "<td> " + registro.descripcion + "</td>" + "<td> " + registro.estatus + "</td>";
+                tr.innerHTML = datos ;
+                
+                
+                const table = document.getElementById("tablacampos");
+                table.appendChild(tr);
+                
+                
+              
+             })
+
+            });
+        };
+      document.addEventListener("DOMContentLoaded", function (event) {
+        retrieveData(); 
+        
+        //Las peticiones se hacen a la uri del server segun las rutas definidas
+        
+      });  */
+
+    
+    
+</script>
 
 
 

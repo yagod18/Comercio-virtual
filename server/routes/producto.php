@@ -5,6 +5,7 @@ router("GET","/producto/:id", function($id){
     echo mostrar_producto($id);
 
 });
+
 //En este caso utilizamos un metodo POST para enviar informacion que se actualizara en la base de datos. 
 router("POST","/producto", function(){
     include_once("./models/producto.php");

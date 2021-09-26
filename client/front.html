@@ -1,39 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
     <title>Document</title>
-    <script>
-      function retrieveData () {
-          fetch("http://localhost/comercio-virtual/server/productos")
-          .then((res) => res.json())
-          .then((data) => {
-              console.log(data);
-              // data = data[0];
-              // console.log(data.nombre);
-              // for (let i=0; i < data.length; i++) {
-              //   const datos = document.createElement("div");
-              //   datos.innerText = "Producto: " + data[i].nombre + "\nCantidad: " + data[i].cantidad + "\nPrecio:" + data[i].precio;
-              //   const div = document.getElementById("datos");
-              //   div.appendChild(datos);
-              // }
-            });
-        };
-      document.addEventListener("DOMContentLoaded", function (event) {
-        retrieveData(); 
-        const button = document.querySelector(".button");
-        button.addEventListener("click", () => {
-          retrieveData();
-        });
-        //Las peticiones se hacen a la uri del server segun las rutas definidas
-        
-      });
-    </script>
+  
   </head>
-  <body>
-    <button type="button" class="button">Retrieve data from api</button>
-    <div id="datos"></div>
+  <body> 
+    <header class="row">
+      <div class="col-12" style="background-color: rgb(245, 102, 7);">
+        pep
+      </div>
+    </header>
+   
+
+    <cuerpo class="row">
+      <div class="col-4" id="tablacategorias" style="background-color: rgb(255, 183, 116); padding-left:5%; padding-top:2%;" ></div>
+
+
+
+
+      <div class="col-8" style="background-color: rgb(238, 199, 173);">
+        <div class="container mt-5">
+          <h1>Buscador</h1>
+          <input type="text" id="formulariobuscador" class="my-2">
+          <button class="btn btn-primary mb-2" id="botonbuscador">Buscar</button>
+          <ul id="resultadodebusqueda">
+          
+          </ul>
+      </div>
+      </div>
+    </cuerpo>
+
+
+
+
+    <footer class="row">
+      <div class="col-12" style="background-color: rgb(245, 102, 7);">footer</div>
+
+    </footer>
   </body>
+  <script>    
+  
+  // categorias
+
+    fetch("http://localhost/comercio-virtual/server/categorias")
+     .then((res) => res.json())
+     .then((data) =>{ 
+            
+          //   console.log(data);
+
+          data.map((registro)=> {
+              console.log(registro)
+
+              const tr = document.createElement("tr");
+          
+              const datos = "<td> <a href='#' id='clickcategoria' style='text-decoration: none; color: #000;' >" + registro.categoria + "</a> </td>";
+              tr.innerHTML = datos ;
+              
+              
+              const table = document.getElementById("tablacategorias");
+              table.appendChild(tr);
+              
+              
+            
+           })
+
+     });  
+
+    // buscador
+
+    fetch("http://localhost/comercio-virtual/server/productos")
+    .then((res) => res.json())
+    .then((data) =>{
+        
+  const formulariobuscador = document.querySelector('#formulariobuscador');
+  const botonbuscador = document.querySelector('#botonbuscador');
+  const resultadodebusqueda = document.querySelector('#resultadodebusqueda');
+
+  const buscar = () =>{
+      resultadodebusqueda.innerHTML = '';
+      const text = formulariobuscador.value.toLowerCase();
+
+
+
+      for(let producto of data){
+          
+          let nombre = producto.nombre.toLocaleLowerCase();
+          if(nombre.indexOf(text) !== -1){
+              resultadodebusqueda.innerHTML += `<li>${producto.nombre} - Valor: ${producto.precio} </li>`
+              
+          }
+      }
+
+      if(resultadodebusqueda.innerHTML === ''){
+          resultadodebusqueda.innerHTML += `<li>Producto no encontrado...</li>`
+      }
+
+  }
+
+  botonbuscador.addEventListener('click', buscar)
+  formulariobuscador.addEventListener('keyup', buscar)
+  buscar();
+    });
+
+    
+
+      
+
+
+// catalogo
+
+
+/* function retrieveData () {
+        fetch("http://localhost/comercio-virtual/server/productos")
+        .then((res) => res.json())
+        .then((data) => {
+          //   console.log(data);
+
+           data.map((registro)=> {
+              console.log(registro)
+
+              const tr = document.createElement("tr");
+          
+              const datos = "<li> <a>" + registro.precio  + "<li> <a>" + registro.cantidad  +  "<li> <a>" + registro.nombre  + "<li> <a>" + registro.categorias  + "<li> <a>" + registro.descripcion  + "<li> <a>" + registro.estatus ;
+              tr.innerHTML = datos ;
+              
+              
+              const table = document.getElementById("tablacampos");
+              table.appendChild(tr);
+              
+              
+            
+           })
+
+          });
+      };
+    document.addEventListener("DOMContentLoaded", function (event) {
+      retrieveData(); 
+      
+      //Las peticiones se hacen a la uri del server segun las rutas definidas
+      
+    });  */
+
+  
+  
+</script>
 </html>
