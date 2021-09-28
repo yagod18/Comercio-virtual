@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
       function retrieveData () {
-          fetch("http://localhost/comercio-virtual/server/productos")
+          fetch("http://localhost/comercio-virtual/server/producto/add")
           .then((res) => res.json())
           .then((data) => {
               console.log(data);
@@ -110,6 +110,12 @@
                     </select>
                     <div class="invalid-feedback">
                      
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label  class="form-label">Estatus</label>
+                    <input type="text" class="form-control" name="estatus"  placeholder="estatus">
+                    <div class="invalid-feedback">                    
                     </div>
                   </div>
                   <button type="submit"class="btn btn-primary">Cargar</button>

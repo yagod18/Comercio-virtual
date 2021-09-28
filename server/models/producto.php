@@ -3,10 +3,7 @@
 //Mostrar seria nuestro leer (SELECT)
 function mostrar_producto($id) {
     //Esta creacion del producto deben reemplazarla con una consulta a la base de datos y traer la correspondiente segun el id
-    $producto = new stdClass();
-    $producto->id = $id;
-    $producto->nombre = "Coca cola";
-    $producto->cantidad = 10;
+
 
     return json_encode($producto);
 }
@@ -25,14 +22,14 @@ function modificar_producto($datos) {
     return json_encode($producto);
 }
 // Falta crear las funciones para eliminar y crear un nuevo registro
-function cargar_productos() {  
+function cargar_productos($precio, $cantidad, $nombre, $categorias, $descripcion, $estatus) {  
 $conexion = mysqli_connect("localhost", "root", "", "ecommerce");
-$precio= $_POST['precio'];
-$cantidad= $_POST['cantidad'];
-$nombre= $_POST['nombre'];
-$categorias= $_POST['categorias'];
-$descripcion= $_POST['descripcion'];
-$sql = " INSERT INTO productos (id_producto, precio, cantidad, nombre, categorias, descripcion) VALUES ('$precio','$cantidad','$nombre','$categorias','$descripcion')";
+
+$sql = " INSERT INTO productos (precio, cantidad, nombre, fk_categorias, descripcion, estatus) VALUES ('$precio','$cantidad','$nombre','$categorias','$descripcion', '$estatus')";
+
+$query = mysqli_query($conexion, $sql) or die (mysqli_error($conexion));
+
+return $query;
 
 
  }

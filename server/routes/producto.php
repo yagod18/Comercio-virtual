@@ -23,9 +23,15 @@ router("POST", "/producto", function(){
    
 
 });
-router('PUT', '/producto/add', function(){
-    if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-        parse_str(file_get_contents("php://input"),$put_vars);
-        echo $put_vars['nombre'];
-    }   
+router('POST', '/producto/add', function(){
+    include_once("./models/producto.php");
+    $precio= $_POST['precio'];
+    $cantidad= $_POST['cantidad'];
+    $nombre= $_POST['nombre'];
+    $categorias= $_POST['categorias'];
+    $descripcion= $_POST['descripcion'];
+    $estatus= $_POST['estatus'];
+   echo cargar_productos($precio, $cantidad, $nombre, $categorias, $descripcion, $estatus);
+
+    
 });
