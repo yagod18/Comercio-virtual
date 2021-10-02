@@ -14,7 +14,7 @@
 </head>
 
 <body style="background-color: black; margin: 0;">
-  //header
+  <!--header-->
   <header class="p-3 bg-dark text-white">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -30,8 +30,12 @@
           <li><a href="#" class="nav-link px-2 text-white">About</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="margin-top: 2%;">
+          <input type="text" id="formulariobuscador" placeholder="Buscar">
+          <button class="btn btn-primary mb-2" id="botonbuscador">Buscar</button>
+          <ul id="resultadodebusqueda">
+          
+          </ul>
         </form>
 
         <div class="text-end">
@@ -41,7 +45,7 @@
       </div>
     </div>
   </header>
-  //informacion del producto
+  <!--informacion del producto -->
   
     <div class="card text-dark bg-light mb-3" style="width: 40%; height: 80%; position:absolute; margin-left: 50%; margin-top: 4%; ">
         <div class="card-header"><h3> Moto <br>$23000</h1></div>
@@ -53,7 +57,7 @@
         <div class="card-footer">Footer</div>
       </div>
 
-//fotos del producto
+<!--fotos del producto -->
 <div style=" width:46%;  margin-left: 2%;  margin-top: 5%; " id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
     <div  class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -86,7 +90,41 @@
     </button>
   </div>
 </div>  
- 
+<script>  
+fetch("http://localhost/comercio-virtual/server/productos")
+    .then((res) => res.json())
+    .then((data) =>{
+        
+  const formulariobuscador = document.querySelector('#formulariobuscador');
+  const botonbuscador = document.querySelector('#botonbuscador');
+  const resultadodebusqueda = document.querySelector('#resultadodebusqueda');
+
+  const buscar = () =>{
+      resultadodebusqueda.innerHTML = '';
+      const text = formulariobuscador.value.toLowerCase();
+
+
+
+      for(let producto of data){
+          
+          let nombre = producto.nombre.toLocaleLowerCase();
+          if(nombre.indexOf(text) !== -1){
+              resultadodebusqueda.innerHTML += `<li>${producto.nombre} - Valor: ${producto.precio} </li>`
+              
+          }
+      }
+
+      if(resultadodebusqueda.innerHTML === ''){
+          resultadodebusqueda.innerHTML += `<li>Producto no encontrado...</li>`
+      }
+
+  }
+
+  botonbuscador.addEventListener('click', buscar)
+  formulariobuscador.addEventListener('keyup', buscar)
+  buscar();
+    });
+</script>
   
 </body>
 </html>
