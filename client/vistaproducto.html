@@ -13,35 +13,40 @@
 
 </head>
 
-<body style="background-color: black; margin: 0;">
-  <!--header -->
-  <header class="p-3 bg-dark text-white">
-    <div class="container">
+<body style="background-color: rgb(255, 255, 255); margin: 0;">
+
+  <!--header-->
+  <header class="p-3 bg-dark text-white ">
+    <div class="container" >
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
           <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
         </a>
 
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-          <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0" ">
+          <li><a href="front.html" class="nav-link px-2 text-white">Inicio</a></li>
+          <li><a href="CargarProductos.html" class="nav-link px-2 text-white">Cargar productos</a></li>
+          <li><a href="" class="nav-link px-2 text-white">Pricing</a></li>
           <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
           <li><a href="#" class="nav-link px-2 text-white">About</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-          <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" style="margin-top: 2%;">
+          <input type="text" id="formulariobuscador" placeholder="Buscar">
+          <button class="btn btn-primary mb-2" id="botonbuscador">Buscar</button>
+          <ul  id="resultadodebusqueda">
+          
+          </ul>
         </form>
 
         <div class="text-end">
-          <button type="button" class="btn btn-outline-light me-2">Login</button>
+          <button  type="button" class="btn btn-outline-light me-2"> <a href="login.html" style='text-decoration: none; color: rgb(151, 149, 149);'>Login </a> </button>
           <button type="button" class="btn btn-warning">Sign-up</button>
         </div>
       </div>
     </div>
   </header>
-  <!-- informacion del producto -->
+  <!--informacion del producto -->
   
     <div class="card text-dark bg-light mb-3" style="width: 40%; height: 80%; position:absolute; margin-left: 50%; margin-top: 4%; ">
         <div class="card-header"><h3> Moto <br>$23000</h1></div>
@@ -50,10 +55,10 @@
           <h5 class="card-title">Success card title</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
-        <div class="card-footer">Footer</div>
+        <div class="card-footer"><button type="button" class="btn btn-outline-dark">Añadir al carrito</button></div>
       </div>
 
-<!-- fotos del producto -->
+<!--fotos del producto -->
 <div style=" width:46%;  margin-left: 2%;  margin-top: 5%; " id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
     <div  class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -86,7 +91,62 @@
     </button>
   </div>
 </div>  
- 
+
+<div style="background-color: rgb(27, 27, 27); margin-top: 10%; height: 5rem ; ">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <p class="col-md-4 mb-0 text-white">© 2021 Company, Inc</p>
+
+    <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+    </a>
+
+    <ul class="nav col-md-4 justify-content-end">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
+    </ul>
+  </footer>
+</div>
+
+
+
+<script>  
+fetch("http://localhost/comercio-virtual/server/productos")
+    .then((res) => res.json())
+    .then((data) =>{
+        
+  const formulariobuscador = document.querySelector('#formulariobuscador');
+  const botonbuscador = document.querySelector('#botonbuscador');
+  const resultadodebusqueda = document.querySelector('#resultadodebusqueda');
+/*
+  const buscar = () =>{
+      resultadodebusqueda.innerHTML = '';
+      const text = formulariobuscador.value.toLowerCase();
+*/
+
+
+      for(let producto of data){
+          
+          let nombre = producto.nombre.toLocaleLowerCase();
+          if(nombre.indexOf(text) !== -1){
+              resultadodebusqueda.innerHTML += `<li>${producto.nombre} - Valor: ${producto.precio} </li>`
+              
+          }
+      }
+
+      if(resultadodebusqueda.innerHTML === ''){
+          resultadodebusqueda.innerHTML += `<li>Producto no encontrado...</li>`
+      }
+
+  }
+
+  botonbuscador.addEventListener('click', buscar)
+  formulariobuscador.addEventListener('keyup', buscar)
+  buscar();
+    });
+</script>
   
 </body>
 </html>
